@@ -1,0 +1,19 @@
+diff --git a/node_modules/@oclif/config/lib/plugin.js b/node_modules/@oclif/config/lib/plugin.js
+index 948d332..d5a76fd 100644
+--- a/node_modules/@oclif/config/lib/plugin.js
++++ b/node_modules/@oclif/config/lib/plugin.js
+@@ -130,6 +130,14 @@ class Plugin {
+         else {
+             this.pjson.oclif = this.pjson['cli-engine'] || {};
+         }
++        // Insert to support branding
++        const brandingPath = path.join(root, 'branding.json')
++        if (require('fs').existsSync(brandingPath)) {
++          const branding = await util_2.loadJSON(brandingPath)
++          const baseCmdPath = path.join(root, 'lib', 'NimBaseCommand')
++          require(baseCmdPath).setBranding(branding)
++        }
++        // End branding insert
+         this.hooks = util_2.mapValues(this.pjson.oclif.hooks || {}, i => Array.isArray(i) ? i : [i]);
+         this.manifest = await this._manifest(Boolean(this.options.ignoreManifest), Boolean(this.options.errorOnManifestCreate));
+         this.commands = Object.entries(this.manifest.commands)

@@ -1,0 +1,9 @@
+{
+  "brand": "DigitalOcean",
+  "cmdName": "doctl sandbox",
+  "defaultHostSuffix": ".doserverless.io",
+  "hostPrefix": "",
+  "namespaceRepair": "Use 'doctl sandbox [install | connect ]' to create one",
+  "workbenchURL": "",
+  "previewWorkbenchURL": ""
+}

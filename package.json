@@ -1,0 +1,28 @@
+{
+  "name": "sandbox",
+  "version": "1.0.0",
+  "description": "Experimental",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "patch-package"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.internal.digitalocean.com:jauerbach/sandbox.git"
+  },
+  "keywords": [],
+  "author": "Joshua Auerbach",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "@nimbella/nimbella-cli": "^2.3.0",
+    "@nimbella/nimbella-deployer": "^3.1.9",
+    "cli-ux": "^6.0.6",
+    "patch-package": "^6.4.7"
+  },
+  "devDependencies": {
+    "@types/node": "^17.0.5",
+    "@types/swagger-schema-official": "^2.0.22",
+    "typescript": "^3.9.10"
+  }
+}

@@ -1,0 +1,7 @@
+/lib
+/tmp
+/yarn.lock
+node_modules
+*.tar.xz
+/sandbox
+doctl-prototype.html
