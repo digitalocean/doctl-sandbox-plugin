@@ -25,7 +25,8 @@
 TARGET_SPACE=do-serverless-tools
 DO_ENDPOINT=nyc3.digitaloceanspaces.com
 SPACE_URL="https://$TARGET_SPACE.$DO_ENDPOINT"
-TARBALL_NAME=doctl-sandbox.tar.xz
+TARBALL_NAME_PREFIX="doctl-sandbox"
+TARBALL_NAME_SUFFIX="tar.gz"
 
 # Change this variable when local setup for s3 CLI access changes
 AWS="aws --profile do --endpoint https://$DO_ENDPOINT"
@@ -65,9 +66,16 @@ else
     mkdir sandbox
 fi
 
+echo "Determining the version string"
+SANDBOX_VERSION=$(jq -r .version < package.json)
+NIM_VERSION=$(jq -r '.dependencies|."@nimbella/nimbella-cli"' < package.json)
+VERSION="$NIM_VERSION-$SANDBOX_VERSION"
+echo "Version is $VERSION"
+
 echo "Moving artifacts to the sandbox folder"
 cp lib/index.js sandbox/sandbox.js
 cp -r node_modules sandbox
+echo "$VERSION" > sandbox/version
 
 if [ -n "$TESTING" ]; then
 		echo "Test setup complete"
@@ -76,7 +84,8 @@ if [ -n "$TESTING" ]; then
 fi
 
 echo "Making the tarball"
-tar cJf "$TARBALL_NAME" sandbox
+TARBALL_NAME="$TARBALL_NAME_PREFIX-$VERSION.$TARBALL_NAME_SUFFIX"
+tar czf "$TARBALL_NAME" sandbox
 
 echo "Uploading"
 $AWS s3 cp "$TARBALL_NAME" "s3://$TARGET_SPACE/$TARBALL_NAME"
