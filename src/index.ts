@@ -20,6 +20,10 @@ import { runNimCommand, runNimCommandNoCapture, CaptureLogger, Branding, setBran
 import { ux, cli } from 'cli-ux'
 
 // The current branding plan for this inclusion
+// Note:  the "branding" idea as currently implemented in 'nim' is pretty ineffective.
+// We end up having to fix up most things on the doctl side anyway.  For the moment,
+// we continue to use it but we might consider simplifying it out of existence in favor
+// of a clear responsibility on doctl to do the right thing with messages.
 const sandboxBranding: Branding = {
   brand: 'DigitalOcean',
   cmdName: 'doctl sandbox',
@@ -30,12 +34,7 @@ const sandboxBranding: Branding = {
   previewWorkbenchURL: ''
 }
 
-// The list of commands for which we do not capture the output (the regular command
-// output of 'nim' will appear on stdout and can be handled in a streaming fashion).
-const noCaptureCommands = [
-  'project/watch'  
-]
-
+// Main execution sequence
 main().then(flush).catch(handleError)
 
 // Main logic handles everything except cleanup and error handling
@@ -43,14 +42,21 @@ async function main() {
   if (process.argv.length < 3) {
     throw new Error('Too few arguments to sandbox exec')
   }
-  const command = process.argv[2]
-  const args = process.argv.slice(3)
+  let command = process.argv[2]
+  let args = process.argv.slice(3)
   setBranding(sandboxBranding)
-  if (noCaptureCommands.includes(command)) {
+  // Process special "command" which is really a directive not to capture the output.
+  // This is to be used by commands that typically run indefinitely in their own console
+  // window such as 'project watch' or 'activations logs --watch'.
+  if (command === 'nocapture') {
+    command = args[0]
+    args = args.slice(1)
     return await runNimCommandNoCapture(command, args)
   }
+  // The normal path in which output is captured
   const captureLogger = await runNimCommand(command, args)
   const { captured, table, entity, tableColumns, tableOptions } = captureLogger
+  // Apply "standard" formatting to table output if any
   let formatted = []
   if (table && table.length > 0) {
     const formatter = new CaptureLogger()                 
