@@ -32,7 +32,7 @@ AWS="aws --profile do --endpoint https://$DO_ENDPOINT"
 # Orient
 set -e
 SELFDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd $SELFDIR/../doctl
+cd $SELFDIR/../../doctl
 
 echo "Removing old artifacts"
 rm -rf *.tar.gz
