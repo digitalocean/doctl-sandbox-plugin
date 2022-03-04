@@ -15,10 +15,16 @@
   "author": "Joshua Auerbach",
   "license": "UNLICENSED",
   "dependencies": {
-    "@nimbella/nimbella-cli": "2.3.6",
-    "@nimbella/nimbella-deployer": "3.1.19",
+    "@nimbella/nimbella-cli": "2.3.7",
+    "@nimbella/nimbella-deployer": "3.1.20",
     "cli-ux": "^6.0.6",
     "patch-package": "^6.4.7"
+  },
+  "overrides": {
+    "@adobe/aio-cli-plugin-runtime": {
+      "@adobe/aio-lib-runtime": "^3.3.0"
+    },
+    "ansi-regex": "^5.0.1"
   },
   "devDependencies": {
     "@types/node": "^17.0.5",
