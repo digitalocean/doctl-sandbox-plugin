@@ -15,8 +15,8 @@
   "author": "Joshua Auerbach",
   "license": "UNLICENSED",
   "dependencies": {
-    "@nimbella/nimbella-cli": "2.3.10",
-    "@nimbella/nimbella-deployer": "3.1.23",
+    "@nimbella/nimbella-cli": "3.0.0",
+    "@nimbella/nimbella-deployer": "4.0.2",
     "cli-ux": "^6.0.6",
     "patch-package": "^6.4.7"
   },
