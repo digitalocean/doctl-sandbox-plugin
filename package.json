@@ -1,6 +1,6 @@
 {
   "name": "sandbox-plugin",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "Support for doctl sandbox commands",
   "main": "lib/index.js",
   "scripts": {
@@ -15,7 +15,7 @@
   "author": "Joshua Auerbach",
   "license": "UNLICENSED",
   "dependencies": {
-    "@nimbella/nimbella-cli": "3.0.0",
+    "@nimbella/nimbella-cli": "3.0.2",
     "@nimbella/nimbella-deployer": "4.0.2",
     "cli-ux": "^6.0.6",
     "patch-package": "^6.4.7"

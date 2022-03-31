@@ -55,7 +55,11 @@ async function main() {
   }
   // The normal path in which output is captured
   const captureLogger = await runNimCommand(command, args)
-  const { captured, table, entity, tableColumns, tableOptions } = captureLogger
+  const { captured, table, entity, tableColumns, tableOptions, errors } = captureLogger
+  // Some errors (particularly in deploy steps) are not thrown by nim and may occur in multiples.
+  // These are handled specially here so that doctl has only an error string to deal with similar
+  // to errors that are thrown.
+  const error = errors?.join('\n')
   // Apply "standard" formatting to table output if any
   let formatted = []
   if (table && table.length > 0) {
@@ -64,7 +68,7 @@ async function main() {
     cli.table(table, tableColumns, tableOptions)
     formatted = formatter.captured
   }
-  const result = { captured, table, formatted, entity } 
+  const result = { captured, table, formatted, entity, error } 
   console.log(JSON.stringify(result, null, 2))
 }
 
