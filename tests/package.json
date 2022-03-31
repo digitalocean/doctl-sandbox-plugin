@@ -1,0 +1,18 @@
+{
+  "name": "tests",
+  "version": "1.0.0",
+  "description": "Doctl sandbox tests",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx bats -tr */*bats"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "bats": "1.5.0",
+    "bats-assert": "github:bats-core/bats-assert",
+    "bats-file": "github:bats-core/bats-file",
+    "bats-support": "github:bats-core/bats-support"
+  }
+}
