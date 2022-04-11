@@ -13,9 +13,9 @@
   },
   "keywords": [],
   "author": "Joshua Auerbach",
-  "license": "UNLICENSED",
+  "license": "Apache-2.0",
   "dependencies": {
-    "@nimbella/nimbella-cli": "3.0.3",
+    "@nimbella/nimbella-cli": "3.0.4",
     "@nimbella/nimbella-deployer": "4.0.5",
     "cli-ux": "^6.0.6",
     "patch-package": "^6.4.7"

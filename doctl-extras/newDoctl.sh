@@ -1,22 +1,4 @@
 #!/bin/bash
-#
-# DigitalOcean, LLC CONFIDENTIAL
-# ------------------------------
-#
-#   2021 - present DigitalOcean, LLC
-#   All Rights Reserved.
-#
-# NOTICE:
-#
-# All information contained herein is, and remains the property of
-# DigitalOcean, LLC and its suppliers, if any.  The intellectual and technical
-# concepts contained herein are proprietary to DigitalOcean, LLC and its
-# suppliers and may be covered by U.S. and Foreign Patents, patents
-# in process, and are protected by trade secret or copyright law.
-#
-# Dissemination of this information or reproduction of this material
-# is strictly forbidden unless prior written permission is obtained
-# from DigitalOcean, LLC.
 
 # Creates and uploads the doctl tarball for mac and linux
 # Requires that the prototype branch of doctl be checked out as a peer of this repo clone
