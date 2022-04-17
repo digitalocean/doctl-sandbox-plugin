@@ -4,7 +4,7 @@
   "description": "Doctl sandbox tests",
   "main": "index.js",
   "scripts": {
-    "test": "npx bats -tr */*bats"
+    "test": "npx bats -tr */test.bats"
   },
   "keywords": [],
   "author": "",
