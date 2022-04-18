@@ -18,6 +18,8 @@ fi
 # The following is heuristic and incomplete.  A better way would be welcome.
 which uname > /dev/null || (echo "Cannot run on native windows" && exit 1)
 set -e
+UNPACK="tar xzf"
+SUFFIX="tar.gz"
 UOS=$(uname -s)
 if [[ "$UOS" == *Linux* ]]; then
   OS=linux
@@ -25,6 +27,8 @@ elif [ "$UOS" == Darwin ]; then
   OS=darwin
 else
   OS=windows
+  UNPACK=unzip
+  SUFFIX=zip
 fi
 UARCH=$(uname -m)
 if [ $UARCH == x86_64 ]; then
@@ -34,21 +38,15 @@ elif [[ $UARCH == *386* ]]; then
 else
   ARCH=$UARCH
 fi
-DOWNLOAD="https://do-serverless-tools.nyc3.digitaloceanspaces.com/doctl-with-sandbox-${OS}_${ARCH}.tar.gz"
+DOWNLOAD="https://do-serverless-tools.nyc3.digitaloceanspaces.com/doctl-with-sandbox-${OS}_${ARCH}.$SUFFIX"
 echo "OS=$OS, ARCH=$ARCH"
 echo "Downloading from $DOWNLOAD"
 
 # Do the download
 cd "$1"
 [ -d bin ] || mkdir bin
-if [ "$OS" == windows ]; then
-  TARGET=doctl.zip
-  UNPACK=unzip
-else
-  TARGET=doctl.tar.gz
-  UNPACK="tar xzf"
-fi  
-curl "$DOWNLOAD" -o "$TARGET"
+curl "$DOWNLOAD" -o "doctl.$SUFFIX"
 cd bin
-$UNPACK "../$TARGET"
+$UNPACK "../doctl.$SUFFIX"
+rm "../doctl.$SUFFIX"
 echo "Doctl with sandbox has been downloaded to $1/bin"
