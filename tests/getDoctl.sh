@@ -19,9 +19,13 @@ fi
 which uname > /dev/null || (echo "Cannot run on native windows" && exit 1)
 set -e
 UOS=$(uname -s)
-[[ $UOS == *Linux* ]] && OS=linux
-[ $UOS == Darwin ] && OS=darwin
-[ -z "$OS" ] && OS=windows
+if [[ "$UOS" == *Linux* ]]; then
+  OS=linux
+elif [ "$UOS" == Darwin ]; then
+  OS=darwin
+else
+  OS=windows
+fi
 UARCH=$(uname -m)
 if [ $UARCH == x86_64 ]; then
   ARCH=amd64
