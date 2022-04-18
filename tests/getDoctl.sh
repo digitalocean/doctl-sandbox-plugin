@@ -7,8 +7,13 @@
 
 # Requires the staging directory as an argument.
 # Places doctl in the 'bin' subdirectory thereof.
-[ -n "$1" ] || (echo "Missing argument" && exit 1)
-[ -z "$2" ] || (echo "Too many arguments" && exit 1)
+if [ -z "$1" ]; then
+  echo "Missing argument"
+  exit 1
+elif [ -n "$2" ]; then
+  echo "Too many arguments"
+  exit 1
+fi
 
 # The following is heuristic and incomplete.  A better way would be welcome.
 which uname > /dev/null || (echo "Cannot run on native windows" && exit 1)
@@ -26,6 +31,8 @@ else
   ARCH=$UARCH
 fi
 DOWNLOAD="https://do-serverless-tools.nyc3.digitaloceanspaces.com/doctl-with-sandbox-${OS}_${ARCH}.tar.gz"
+echo "OS=$OS, ARCH=$ARCH"
+echo "Downloading from $DOWNLOAD"
 
 # Do the download
 cd "$1"
