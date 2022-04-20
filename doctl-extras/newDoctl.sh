@@ -1,7 +1,8 @@
 #!/bin/bash
 
-# Creates and uploads the doctl tarball for mac and linux
-# Requires that the prototype branch of doctl be checked out as a peer of this repo clone
+# Creates and uploads the doctl tarballs for all arch and os.
+# Requires the intended branch of doctl (typically feature/sandbox)
+# to be checked out as a peer of this repo clone.
 
 # Change these variables on changes to the space we are uploading to or naming conventions within it
 TARGET_SPACE=do-serverless-tools
@@ -11,14 +12,22 @@ SPACE_URL="https://$TARGET_SPACE.$DO_ENDPOINT"
 # Change this variable when local setup for s3 CLI access changes
 AWS="aws --profile do --endpoint https://$DO_ENDPOINT"
 
+# Define a test flag
+if [ "$1" == "--test" ]; then
+    PREFIX=doctl-test/
+elif [ -n "$1" ]; then
+    echo "Illegal argument"
+    exit
+fi
+
 # Subroutine to tar and upload one doctl binary for mac or linux
 function tar_and_upload() {
   echo "Making tarball for $1"
   rm -fr /tmp/sbx.tar.gz
   tar czf /tmp/sbx.tar.gz -C dist/doctl_$1 doctl
   echo "Uploading tarball for $1"
-  $AWS s3 cp /tmp/sbx.tar.gz "s3://$TARGET_SPACE/doctl-with-sandbox-$1.tar.gz"
-  $AWS s3api put-object-acl --bucket "$TARGET_SPACE" --key "doctl-with-sandbox-$1.tar.gz" --acl public-read
+  $AWS s3 cp /tmp/sbx.tar.gz "s3://$TARGET_SPACE/${PREFIX}doctl-with-sandbox-$1.tar.gz"
+  $AWS s3api put-object-acl --bucket "$TARGET_SPACE" --key "${PREFIX}doctl-with-sandbox-$1.tar.gz" --acl public-read
 }
 
 # Subroutine to zip and upload one doctl binary for windows
@@ -29,10 +38,9 @@ function zip_and_upload() {
   zip -r /tmp/sbx.zip doctl.exe
   popd
   echo "Uploading zip file for $1"
-  $AWS s3 cp /tmp/sbx.zip "s3://$TARGET_SPACE/doctl-with-sandbox-$1.zip"
-  $AWS s3api put-object-acl --bucket "$TARGET_SPACE" --key "doctl-with-sandbox-$1.zip" --acl public-read
+  $AWS s3 cp /tmp/sbx.zip "s3://$TARGET_SPACE/${PREFIX}doctl-with-sandbox-$1.zip"
+  $AWS s3api put-object-acl --bucket "$TARGET_SPACE" --key "${PREFIX}doctl-with-sandbox-$1.zip" --acl public-read
 }
-
 
 # Orient
 set -e
