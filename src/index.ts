@@ -13,7 +13,8 @@ const sandboxBranding: Branding = {
   hostPrefix: '', // TODO confirm
   namespaceRepair: "Use 'doctl sandbox [install | connect ]' to create one",
   workbenchURL: '',
-  previewWorkbenchURL: ''
+  previewWorkbenchURL: '',
+  deployedActionsHeader: "Deployed functions ('doctl sbx fn get <funcName> --url' for URL):"
 }
 
 // Main execution sequence
