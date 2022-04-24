@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  test:
     strategy:
       matrix:
         go-version: [ 1.16.x, 1.17.x ]
@@ -25,4 +25,3 @@ jobs:
     - name: Build doctl
       run: make build
       working-directory: doctl
-k
