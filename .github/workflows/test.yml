@@ -27,4 +27,5 @@ jobs:
       working-directory: doctl
       
     - name: Initialize doctl default context
-      run: ./doctl/build/doctl auth init --access-token ${{ secrets.TEST_DO_TOKEN }}
+      run: ./builds/doctl auth init --access-token ${{ secrets.TEST_DO_TOKEN }}
+      working-directory: doctl
