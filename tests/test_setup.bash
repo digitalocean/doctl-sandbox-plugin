@@ -3,7 +3,7 @@ load "./node_modules/bats-assert/load.bash"
 load "./node_modules/bats-file/load.bash"
 
 if [ -z "$DOCTL" ]; then
-  DOCTL=doctl
+  DOCTL=$PWD/../../doctl/builds/doctl
 fi
 
 # Utility function to clear our all package resources.
