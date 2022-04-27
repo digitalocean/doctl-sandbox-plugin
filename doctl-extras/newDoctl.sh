@@ -55,6 +55,8 @@ for i in windows_386 windows_amd64 windows_arm64; do
   zip_and_upload $i
 done  
 
-for i in darwin_amd64 darwin_arm64 linux_386 linux_amd64 linux_arm64; do
+# Upload other versions.  Note: although goreleaser builds linux_386
+# we do not upload it because it won't correctly install a sandbox.
+for i in darwin_amd64 darwin_arm64 linux_amd64 linux_arm64; do
   tar_and_upload $i
 done  
