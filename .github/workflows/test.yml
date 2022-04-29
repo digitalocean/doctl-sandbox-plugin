@@ -12,8 +12,8 @@ jobs:
     strategy:
       max-parallel: 1
       matrix:
-        go-version: [ 1.17.x, 1.18.x ]
-        os: [ windows-latest, ubuntu-latest, macos-latest ]
+        go-version: [ 1.18.x ]
+        os: [ ubuntu-latest, windows-latest, macos-latest ]
     runs-on: ${{ matrix.os }}
     concurrency: doctl_sandbox_tests
 
@@ -57,5 +57,7 @@ jobs:
       working-directory: doctl-sandbox-plugin/tests
       
     - name: Test functionality via bats
+      env:
+        DEPLOYMENT_CHUNK_SIZE: 10
       run: npm test
       working-directory: doctl-sandbox-plugin/tests

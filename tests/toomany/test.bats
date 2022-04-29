@@ -1,5 +1,5 @@
 load ../test_setup.bash
-ACTION_COUNT=500
+ACTION_COUNT=100
 
 teardown_file() {
   delete_package "test-toomany"
