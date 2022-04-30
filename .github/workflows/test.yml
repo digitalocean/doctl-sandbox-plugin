@@ -1,8 +1,18 @@
 name: Test Doctl Sandbox
 
 on:
-  repository_dispatch:
-    types: [test_request]
+  workflow_dispatch:
+    inputs:
+      repo:
+        type: string
+        description: Repository to test
+        required: true
+        default: digitalocean/doctl
+      branch:
+        type: string
+        description: Branch to test
+        required: true
+        default: main
 
 defaults:
   run:
@@ -32,8 +42,8 @@ jobs:
     - name: Checkout doctl
       uses: actions/checkout@v3
       with:
-        repository: digitalocean/doctl
-        ref: ${{ github.event.client_payload.branch}}
+        repository: ${{ github.event.inputs.repo }}
+        ref: ${{ github.event.inputs.branch }}
         path: doctl
 
     - name: Build doctl
