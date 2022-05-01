@@ -38,10 +38,6 @@ if [ -z "$TESTING" ]; then
   if [ "$?" == "0" ]; then
     echo "$TARBALL_NAME has already been built and uploaded.  Skipping remaining steps."
     exit 0
-  elif [ "$?" != "254" ]; then
-    echo "Unexpected error during check"
-    echo "$UPLOADED"
-    exit 1
   fi
 else
   echo "Only testing, skipping upload check"
