@@ -24,6 +24,29 @@ fi
 SELFDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $SELFDIR
 
+echo "Determining the new (?) version"
+SANDBOX_VERSION=$(jq -r .version < package.json)
+NIM_VERSION=$(jq -r '.dependencies|."@nimbella/nimbella-cli"' < package.json)
+VERSION="$NIM_VERSION-$SANDBOX_VERSION"
+echo "New version is $VERSION"
+TARBALL_NAME="$TARBALL_NAME_PREFIX-$VERSION.$TARBALL_NAME_SUFFIX"
+echo "New tarball name is $TARBALL_NAME"
+
+if [ -z "$TESTING" ]; then
+  echo "Checking whether the new (?) tarball is already uploaded"
+  UPLOADED=$($AWS s3api head-object --bucket "$TARGET_SPACE" --key "$TARBALL_NAME")
+  if [ "$?" == "0" ]; then
+    echo "$TARBALL_NAME has already been built and uploaded.  Skipping remaining steps."
+    exit 1
+  elif [ "$?" != "254" ]; then
+    echo "Unexpected error during check"
+    echo "$UPLOADED"
+    exit 1
+  fi
+else
+  echo "Only testing, skipping upload check"
+fi
+
 set -e
 
 echo "Removing old artifacts"
@@ -47,12 +70,6 @@ else
     mkdir sandbox
 fi
 
-echo "Determining the version string"
-SANDBOX_VERSION=$(jq -r .version < package.json)
-NIM_VERSION=$(jq -r '.dependencies|."@nimbella/nimbella-cli"' < package.json)
-VERSION="$NIM_VERSION-$SANDBOX_VERSION"
-echo "Version is $VERSION"
-
 echo "Moving artifacts to the sandbox folder"
 cp lib/index.js sandbox/sandbox.js
 cp -r node_modules sandbox
@@ -65,7 +82,6 @@ if [ -n "$TESTING" ]; then
 fi
 
 echo "Making the tarball"
-TARBALL_NAME="$TARBALL_NAME_PREFIX-$VERSION.$TARBALL_NAME_SUFFIX"
 tar czf "$TARBALL_NAME" sandbox
 
 echo "Uploading"
