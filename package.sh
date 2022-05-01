@@ -37,7 +37,7 @@ if [ -z "$TESTING" ]; then
   UPLOADED=$($AWS s3api head-object --bucket "$TARGET_SPACE" --key "$TARBALL_NAME")
   if [ "$?" == "0" ]; then
     echo "$TARBALL_NAME has already been built and uploaded.  Skipping remaining steps."
-    exit 1
+    exit 0
   elif [ "$?" != "254" ]; then
     echo "Unexpected error during check"
     echo "$UPLOADED"
