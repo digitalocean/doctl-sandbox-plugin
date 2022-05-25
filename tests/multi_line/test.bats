@@ -1,7 +1,6 @@
 load ../test_setup.bash
 
 setup_file() {
-  export MULTI=$(<$BATS_TEST_DIRNAME/multiline.file)
   run $DOCTL sbx deploy $BATS_TEST_DIRNAME
 }
 
