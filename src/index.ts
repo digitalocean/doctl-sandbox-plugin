@@ -1,4 +1,5 @@
 import { runNimCommand, runNimCommandNoCapture, CaptureLogger, Branding, setBranding } from '@nimbella/nimbella-cli' 
+import { initializeAPI } from '@nimbella/nimbella-deployer'
 import { ux, cli } from 'cli-ux'
 
 // The current branding plan for this inclusion
@@ -27,6 +28,7 @@ async function main() {
   }
   let command = process.argv[2]
   let args = process.argv.slice(3)
+  initializeAPI(process.env.NIM_USER_AGENT)
   setBranding(sandboxBranding)
   // Process special "command" which is really a directive not to capture the output.
   // This is to be used by commands that typically run indefinitely in their own console
