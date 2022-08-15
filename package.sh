@@ -69,6 +69,7 @@ fi
 echo "Moving artifacts to the sandbox folder"
 cp lib/index.js sandbox/sandbox.js
 cp -r node_modules sandbox
+cp package.json sandbox
 echo "$VERSION" > sandbox/version
 
 if [ -n "$TESTING" ]; then

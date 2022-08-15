@@ -1,7 +1,7 @@
 {
   "name": "sandbox-plugin",
-  "version": "1.3.0",
-  "description": "Support for doctl sandbox commands",
+  "version": "1.3.1",
+  "description": "Support for doctl serverless commands",
   "main": "lib/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
