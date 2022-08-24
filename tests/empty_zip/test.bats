@@ -5,9 +5,15 @@ setup_file() {
 }
 
 @test "deploying project with empty zip file should fail" {
-	assert_file_not_exist $ZIPFILE
+	if [ -e $ZIPFILE]; then
+    echo "$ZIPFILE should not exist"
+		exit 1
+	fi
 	run $DOCTL sbx deploy $BATS_TEST_DIRNAME -v
 	assert_failure
-	assert_file_not_exist $ZIPFILE
+	if [ -e $ZIPFILE]; then
+    echo "$ZIPFILE should not exist"
+		exit 1
+	fi
 	assert_output --partial "Action 'action' has no included files"
 }

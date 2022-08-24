@@ -1,6 +1,5 @@
 load "./node_modules/bats-support/load.bash"
 load "./node_modules/bats-assert/load.bash"
-load "./node_modules/bats-file/load.bash"
 
 if [ -z "$DOCTL" ]; then
   DOCTL=$PWD/../../doctl/builds/doctl
