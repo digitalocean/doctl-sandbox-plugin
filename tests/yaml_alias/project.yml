@@ -13,4 +13,4 @@ packages:
         name: gateway
       - <<: *default_action
         name: cli-gateway
-        webSecure: true
+        webSecure: xyzzy

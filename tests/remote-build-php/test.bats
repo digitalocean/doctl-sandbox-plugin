@@ -7,7 +7,7 @@ teardown_file() {
 @test "deploy php projects with remote build" {
   run $DOCTL sbx deploy $BATS_TEST_DIRNAME --remote-build --verbose-build
 	assert_success
-	assert_line -p "Submitted action 'default' for remote building and deployment in runtime php:default"
+	assert_line -p "Submitted action 'test-remote-build-php/default' for remote building and deployment in runtime php:default"
 }
 
 @test "invoke remotely built php lang actions" {
