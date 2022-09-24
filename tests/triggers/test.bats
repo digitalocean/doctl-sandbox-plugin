@@ -10,7 +10,7 @@ teardown_file() {
 }
 
 @test "ensure that the just-created trigger is actually present" {
-  run bash -c "$DOCTL sls trig get sayit | jq -r .triggerName"
+  run bash -c "$DOCTL sls trig get sayit | jq -r .name"
   assert_success
   assert_output sayit
 }
