@@ -3,4 +3,4 @@ packages:
     actions:
       - name: notify
         web: false
-        webSecure: true
+        webSecure: xyzzy

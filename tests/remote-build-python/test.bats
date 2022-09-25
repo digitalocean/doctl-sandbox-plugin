@@ -7,7 +7,7 @@ teardown_file() {
 @test "deploy python projects with remote build" {
   run $DOCTL sbx deploy $BATS_TEST_DIRNAME --remote-build --verbose-build
 	assert_success
-	assert_line -p "Submitted action 'default' for remote building and deployment in runtime python:default"
+	assert_line -p "Submitted action 'test-remote-build-python/default' for remote building and deployment in runtime python:default"
 }
 
 @test "invoke remotely built python lang actions" {

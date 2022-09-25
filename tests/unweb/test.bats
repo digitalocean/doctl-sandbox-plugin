@@ -28,6 +28,6 @@ teardown_file() {
     },'
 	assert_output --partial '{
       "key": "require-whisk-auth",
-      "value": true
+      "value": "xyzzy"
     },'
 }
