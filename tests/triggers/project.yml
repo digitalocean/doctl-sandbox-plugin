@@ -6,19 +6,20 @@ packages:
     parameters: {}
     annotations: {}
     functions:
-      - name: hello
-        binary: false
-        main: ''
-        runtime: 'nodejs:default'
-        web: true
-        parameters: {}
-        environment: {}
-        annotations: {}
-        limits: {}
+      - name: hello1
+        web: false
         triggers:
-          - name: sayit
+          - name: invoke1
             sourceType: scheduler
             sourceDetails:
               cron: "* * * * *"
               withBody:
                 name: tester
+      - name: hello2
+        web: false
+        triggers:
+          - name: invoke2
+            sourceType: scheduler
+            enabled: false
+            sourceDetails:
+              cron: "30 * * * *"

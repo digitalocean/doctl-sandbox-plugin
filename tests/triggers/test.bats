@@ -2,22 +2,75 @@ load ../test_setup.bash
 
 teardown_file() {
 	delete_package "test-triggers"
+	$DOCTL sls undeploy --triggers --all
 }
 
-@test "deploy a project with valid trigger clause" {
+@test "deploying a project with triggers deploys the triggers" {
   run $DOCTL sls deploy $BATS_TEST_DIRNAME
 	assert_success
+	run $DOCTL sls trig list
+	assert_success
+  assert_output -p invoke1
+  assert_output -p invoke2	
 }
 
-@test "ensure that the just-created trigger is actually present" {
-  run bash -c "$DOCTL sls trig get sayit | jq -r .name"
-  assert_success
-  assert_output sayit
+@test "'triggers get' returns the expected data" {
+  INV1=$($DOCTL sls trig get invoke1)
+  NAME1=$(echo "$INV1" | jq -r .name)
+  FCN1=$(echo "$INV1" | jq -r .function)
+  ENAB1=$(echo "$INV1" | jq -r .is_enabled)
+  CRON1=$(echo "$INV1" | jq -r .cron)
+  BODY1=$(echo "$INV1" | jq -r .body)
+  assert_equal "$NAME1"  invoke1
+  assert_equal "$FCN1" test-triggers/hello1
+  assert_equal "$ENAB1" true
+  assert_equal "$CRON1" "* * * * *"
+  refute [ "$BODY1" == null ]
+  BODYNAME=$(echo "$BODY1" | jq -r .name)
+  assert_equal "$BODYNAME" tester
+  INV2=$($DOCTL sls trig get invoke2)
+  NAME2=$(echo "$INV2" | jq -r .name)
+  FCN2=$(echo "$INV2" | jq -r .function)
+  ENAB2=$(echo "$INV2" | jq -r .is_enabled)
+  CRON2=$(echo "$INV2" | jq -r .cron)
+  BODY2=$(echo "$INV2" | jq -r .body)
+  assert_equal "$NAME2"  invoke2
+  assert_equal "$FCN2" test-triggers/hello2
+  assert_equal "$ENAB2" false
+  assert_equal "$CRON2" "30 * * * *"
+  assert_equal "$BODY2" {}
 }
 
-@test "ensure that undeploying a function with a trigger deletes its trigger also" {
-  run $DOCTL sls undeploy test-triggers/hello
+@test "'triggers list' with --function flag is selective" {
+  run $DOCTL sls trig list --function test-triggers/hello1
   assert_success
-  run bash -c "$DOCTL sls trig get sayit | jq -r .error.status"
-  assert_output -p 404
+  assert_output -p invoke1
+  refute_output -p invoke2  
+}
+
+@test "undeploying a function also undeploys its trigger" {
+  run $DOCTL sls undeploy test-triggers/hello2
+  assert_success
+  run $DOCTL sls trig list
+  assert_success
+  assert_output -p invoke1
+  refute_output -p invoke2  
+}
+
+@test "a deployed trigger fires its function more or less on time" {
+  sleep 60
+  run bash -c "$DOCTL sls actv get --last --function test-triggers/hello1 | jq -r .logs[0]"
+  assert_success
+  assert_output -p "Hello tester!"
+}
+
+@test "a trigger can be undeployed without undeploying its function" {
+  run $DOCTL sls undeploy --triggers invoke1
+  assert_success
+  run $DOCTL sls trig list
+  assert_success
+  refute_output -p invoke1
+  run $DOCTL sls fn list
+  assert_success
+  assert_output -p test-triggers/hello1
 }
