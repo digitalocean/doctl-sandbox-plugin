@@ -9,7 +9,6 @@ if ! [ -f "builds/doctl" ]; then
   echo "Doctl not built or wrong current directory"
   exit 1
 fi
-set -e
 
 DOCTL=builds/doctl
 
@@ -26,7 +25,12 @@ else
   SANDBOX="$APPDATA/doctl/sandbox"
 fi
 
-$DOCTL sbx install
-$DOCTL sbx connect
+set -e
+$DOCTL sls install
+set +e
+$DOCTL sls ns delete doctl-e2e-tests --force
+set -e
+$DOCTL sls ns create --label doctl-e2e-tests --region tor
+$DOCTL sls connect doctl-e2e-tests
 rm "$SANDBOX/version"
-$DOCTL sbx upgrade
+$DOCTL sls upgrade
