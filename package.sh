@@ -68,9 +68,13 @@ fi
 
 echo "Moving artifacts to the sandbox folder"
 cp lib/index.js sandbox/sandbox.js
-cp -r node_modules sandbox
 cp package.json sandbox
 echo "$VERSION" > sandbox/version
+
+echo "Re-installing in production mode to shed dev dependencies"
+pushd sandbox
+npm install --production
+popd
 
 if [ -n "$TESTING" ]; then
 		echo "Test setup complete"
