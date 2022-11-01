@@ -44,12 +44,14 @@ TARBALL_NAME="$TARBALL_NAME_PREFIX-$VERSION.$TARBALL_NAME_SUFFIX"
 echo "New tarball name is $TARBALL_NAME"
 
 if [ -z "$TESTING" ]; then
-  echo "Checking whether the new (?) tarball is already uploaded"
+	echo "Checking whether the new (?) tarball is already uploaded"
+	set +e
   UPLOADED=$($AWS s3api head-object --bucket "$TARGET_SPACE" --key "$TARBALL_NAME")
   if [ "$?" == "0" ]; then
     echo "$TARBALL_NAME has already been built and uploaded.  Skipping remaining steps."
     exit 0
   fi
+	set -e
 else
   echo "Only testing, skipping upload check"
 fi
