@@ -26,8 +26,8 @@ cd $SELFDIR
 
 echo "Determining the new (?) version"
 SANDBOX_VERSION=$(jq -r .version < package.json)
-NIM_VERSION=$(jq -r '.dependencies|."@nimbella/nimbella-cli"' < package.json)
-VERSION="$NIM_VERSION-$SANDBOX_VERSION"
+DEPLOYER_VERSION=$(jq -r '.version' < node_modules/@digitalocean/functions-deployer/package.json)
+VERSION="$DEPLOYER_VERSION-$SANDBOX_VERSION"
 echo "New version is $VERSION"
 TARBALL_NAME="$TARBALL_NAME_PREFIX-$VERSION.$TARBALL_NAME_SUFFIX"
 echo "New tarball name is $TARBALL_NAME"
@@ -68,9 +68,13 @@ fi
 
 echo "Moving artifacts to the sandbox folder"
 cp lib/index.js sandbox/sandbox.js
-cp -r node_modules sandbox
 cp package.json sandbox
 echo "$VERSION" > sandbox/version
+
+echo "Re-installing in production mode to shed dev dependencies"
+pushd sandbox
+npm install --production
+popd
 
 if [ -n "$TESTING" ]; then
 		echo "Test setup complete"
