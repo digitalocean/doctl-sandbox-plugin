@@ -24,6 +24,17 @@ fi
 SELFDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $SELFDIR
 
+set -e
+
+echo "Removing old artifacts"
+rm -rf sandbox *.tar.gz
+
+echo "Ensuring a full install"
+npm install
+
+echo "Building the code"
+npx tsc
+
 echo "Determining the new (?) version"
 SANDBOX_VERSION=$(jq -r .version < package.json)
 DEPLOYER_VERSION=$(jq -r '.version' < node_modules/@digitalocean/functions-deployer/package.json)
@@ -42,17 +53,6 @@ if [ -z "$TESTING" ]; then
 else
   echo "Only testing, skipping upload check"
 fi
-
-set -e
-
-echo "Removing old artifacts"
-rm -rf sandbox *.tar.gz
-
-echo "Ensuring a full install"
-npm install
-
-echo "Building the code"
-npx tsc
 
 # For testing we symlink the "real" sandbox as viewed by the local doctl
 # Otherwise, we make a sandbox folder for staging the upload
