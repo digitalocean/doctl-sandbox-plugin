@@ -26,6 +26,7 @@ async function main() {
     // The normal path in which output is captured
     const captureLogger = new CaptureLogger()
     await runCommand(process.argv.slice(2), captureLogger)
+    console.log('contents of capture logger', captureLogger)
     const { captured, table, entity, errors } = captureLogger
     // Some errors (particularly in deploy steps) are not thrown by nim and may occur in multiples.
     // These are handled specially here so that doctl has only an error string to deal with similar
