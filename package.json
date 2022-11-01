@@ -14,7 +14,7 @@
   "author": "Joshua Auerbach",
   "license": "Apache-2.0",
   "dependencies": {
-    "@digitalocean/functions-deployer": "https://do-serverless-tools.nyc3.digitaloceanspaces.com/digitalocean-functions-deployer-5.0.7.tgz"
+    "@digitalocean/functions-deployer": "https://do-serverless-tools.nyc3.digitaloceanspaces.com/digitalocean-functions-deployer-5.0.8.tgz"
   },
   "devDependencies": {
     "@types/node": "^17.0.5",
