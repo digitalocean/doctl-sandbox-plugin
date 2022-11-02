@@ -1,5 +1,5 @@
 packages:
-  - name: empty_zip
+  - name: default
     actions:
       - name: action
         runtime: nodejs:default
