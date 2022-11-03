@@ -1,5 +1,4 @@
 cleanNamespace: false
-bucket: {}
 parameters: {}
 packages:
   - name: test-multi-substitute
