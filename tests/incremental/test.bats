@@ -18,7 +18,7 @@ patch_project () {
 @test "deploy project incrementally with no changes" {
 	run $DOCTL sbx deploy $BATS_TEST_DIRNAME/test-project --incremental
 	assert_success
-	assert_line "Skipped 5 unchanged actions"
+	assert_line "Skipped 5 unchanged functions"
 }
 
 @test "deploy project incrementally with action changes" {
@@ -26,7 +26,7 @@ patch_project () {
 
 	run $DOCTL sbx deploy $BATS_TEST_DIRNAME/test-project --incremental
 	assert_success
-	assert_line "Skipped 3 unchanged actions"
+	assert_line "Skipped 3 unchanged functions"
 	assert_line "  - incremental/action3"
 	assert_line "  - incremental/action4"
 }
