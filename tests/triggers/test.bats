@@ -19,8 +19,8 @@ teardown_file() {
   NAME1=$(echo "$INV1" | jq -r .name)
   FCN1=$(echo "$INV1" | jq -r .function)
   ENAB1=$(echo "$INV1" | jq -r .is_enabled)
-  CRON1=$(echo "$INV1" | jq -r .cron)
-  BODY1=$(echo "$INV1" | jq -r .body)
+  CRON1=$(echo "$INV1" | jq -r .scheduled_details.cron)
+  BODY1=$(echo "$INV1" | jq -r .scheduled_details.body)
   assert_equal "$NAME1"  invoke1
   assert_equal "$FCN1" test-triggers/hello1
   assert_equal "$ENAB1" true
@@ -32,13 +32,13 @@ teardown_file() {
   NAME2=$(echo "$INV2" | jq -r .name)
   FCN2=$(echo "$INV2" | jq -r .function)
   ENAB2=$(echo "$INV2" | jq -r .is_enabled)
-  CRON2=$(echo "$INV2" | jq -r .cron)
-  BODY2=$(echo "$INV2" | jq -r .body)
+  CRON2=$(echo "$INV2" | jq -r .scheduled_details.cron)
+  BODY2=$(echo "$INV2" | jq -r .scheduled_details.body)
   assert_equal "$NAME2"  invoke2
   assert_equal "$FCN2" test-triggers/hello2
-  assert_equal "$ENAB2" false
+  refute [ "$ENAB2" == true ]
   assert_equal "$CRON2" "30 * * * *"
-  assert_equal "$BODY2" {}
+  assert_equal "$BODY2" null
 }
 
 @test "'triggers list' with --function flag is selective" {
