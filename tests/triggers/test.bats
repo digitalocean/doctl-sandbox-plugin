@@ -10,7 +10,7 @@ teardown_file() {
 
 @test "deploying a project with triggers deploys the triggers" {
   if [ -n "$NO_TRIGGERS" ]; then
-    skip "skipping triggers test for non-production cluster"
+    skip "skipping triggers test"
   fi
   run $DOCTL sls deploy $BATS_TEST_DIRNAME
 	assert_success
@@ -22,7 +22,7 @@ teardown_file() {
 
 @test "'triggers get' returns the expected data" {
   if [ -n "$NO_TRIGGERS" ]; then
-    skip "skipping triggers test for non-production cluster"
+    skip "skipping triggers test"
   fi
   INV1=$($DOCTL sls trig get invoke1)
   NAME1=$(echo "$INV1" | jq -r .name)
@@ -52,7 +52,7 @@ teardown_file() {
 
 @test "'triggers list' with --function flag is selective" {
   if [ -n "$NO_TRIGGERS" ]; then
-    skip "skipping triggers test for non-production cluster"
+    skip "skipping triggers test"
   fi
   run $DOCTL sls trig list --function test-triggers/hello1
   assert_success
@@ -62,7 +62,7 @@ teardown_file() {
 
 @test "undeploying a function also undeploys its trigger" {
   if [ -n "$NO_TRIGGERS" ]; then
-    skip "skipping triggers test for non-production cluster"
+    skip "skipping triggers test"
   fi
   run $DOCTL sls undeploy test-triggers/hello2
   assert_success
@@ -74,7 +74,7 @@ teardown_file() {
 
 @test "a deployed trigger fires its function more or less on time" {
   if [ -n "$NO_TRIGGERS" ]; then
-    skip "skipping triggers test for non-production cluster"
+    skip "skipping triggers test"
   fi
   sleep 60
   run bash -c "$DOCTL sls actv get --last --function test-triggers/hello1 | jq -r .logs[0]"
@@ -84,7 +84,7 @@ teardown_file() {
 
 @test "a trigger can be undeployed without undeploying its function" {
   if [ -n "$NO_TRIGGERS" ]; then
-    skip "skipping triggers test for non-production cluster"
+    skip "skipping triggers test"
   fi
   run $DOCTL sls undeploy --triggers invoke1
   assert_success
