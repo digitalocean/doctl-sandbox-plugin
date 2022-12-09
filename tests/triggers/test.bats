@@ -24,7 +24,7 @@ teardown_file() {
   if [ -n "$NO_TRIGGERS" ]; then
     skip "skipping triggers test"
   fi
-  INV1=$($DOCTL sls trig get invoke1)
+  INV1=$($DOCTL sls trig get invoke1 -ojson | jq -r '.[0]')
   NAME1=$(echo "$INV1" | jq -r .name)
   FCN1=$(echo "$INV1" | jq -r .function)
   ENAB1=$(echo "$INV1" | jq -r .is_enabled)
@@ -37,7 +37,7 @@ teardown_file() {
   refute [ "$BODY1" == null ]
   BODYNAME=$(echo "$BODY1" | jq -r .name)
   assert_equal "$BODYNAME" tester
-  INV2=$($DOCTL sls trig get invoke2)
+  INV2=$($DOCTL sls trig get invoke2 -ojson | jq -r '.[0]')
   NAME2=$(echo "$INV2" | jq -r .name)
   FCN2=$(echo "$INV2" | jq -r .function)
   ENAB2=$(echo "$INV2" | jq -r .is_enabled)
